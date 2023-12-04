@@ -1,0 +1,12 @@
+-r requirements/requirements.in
+
+# Testing modules
+pytest
+pytest-mock
+pytest-cov
+pytest-cases
+
+# Dependency management and security
+pip-compile-multi
+pip-audit
+pip_search # For searching pypi
