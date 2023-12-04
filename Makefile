@@ -33,7 +33,9 @@ sync_requirements:
 	echo "Done!"
 
 day1:
-	@python -um src.main 1;
+	@source ${VENV_BIN} && \
+		python -um src.main 1;
 
 day2:
-	@python -um src.main 2 --debug;
+	@source ${VENV_BIN} && \
+		python -um src.main 2;
