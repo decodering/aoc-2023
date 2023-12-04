@@ -6,15 +6,12 @@
 
 ## Table of Contents
 
-- [Table of Contents](#table-of-contents)
 - [AOC 2023 outline](#aoc-2023-outline)
 - [How to run this repository](#how-to-run-this-repository)
 
 ## AOC 2023 outline
 
-- Elves need 50 stars to feed reindeers by 12/05
-- Each day there will be 2 puzzles, second one being unlocked after finishing first
-- Each puzzle 1 half-star
+- xxx
 
 ## How to run this repository
 
