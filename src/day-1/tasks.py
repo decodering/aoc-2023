@@ -1,7 +1,8 @@
-from src.utils import read_text_file
-from pathlib import Path
 from os.path import join
-from textwrap import dedent
+from pathlib import Path
+from typing import List
+
+from src.utils import read_text_file
 
 
 def get_current_file_dir() -> str:
@@ -13,8 +14,11 @@ TEST2_TXT = join(get_current_file_dir(), "inputs", "test2.txt")
 INPUT_TXT = join(get_current_file_dir(), "inputs", "input.txt")
 SAMPLE_TXT = join(get_current_file_dir(), "inputs", "sample.txt")
 
-if __name__ == "__main__":
-    lines = read_text_file(INPUT_TXT)
+
+def main(
+    input_file: str = INPUT_TXT,
+) -> List[int]:
+    lines = read_text_file(input_file)
     to_sum = []
     for line in lines:
         num = ""
@@ -63,11 +67,4 @@ if __name__ == "__main__":
         to_sum.append(int(num))
     sum_answer_full = sum(to_sum)
 
-    print(
-        dedent(
-            f"""
-            Task 1 answer: {sum_answer_digit_chars_only}
-            Task 2 answer: {sum_answer_full}
-          """
-        )
-    )
+    return [sum_answer_digit_chars_only, sum_answer_full]

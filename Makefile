@@ -8,8 +8,6 @@ VENV_BIN="${VENV_DIR}/bin/activate" # ./ is optional at front
 
 REQUIREMENTS_DEV_TXT="requirements/requirements_dev.txt"
 REQUIREMENTS_PROD_TXT="requirements/requirements.txt"
-REQUIREMENTS_PROD_HASH="requirements/requirements.hash"
-REQUIREMENTS_DEV_HASH="requirements/requirements_dev.hash"
 
 #################################################################################
 # MAKE TARGETS (Building, deps mgmt)
@@ -31,15 +29,11 @@ sync_requirements:
 	@source ${VENV_BIN} && \
 	echo "Syncing requirement files (prod and dev)... " && \
 	pip-sync --verbose \
-		--pip-args "--require-hashes" \
-		${REQUIREMENTS_DEV_HASH} ${REQUIREMENTS_PROD_HASH} && \
+		${REQUIREMENTS_DEV_TXT} ${REQUIREMENTS_PROD_TXT} && \
 	echo "Done!"
 
 day1:
-	@python -um src.day-1.tasks;
+	@python -um src.main 1;
 
-day1-test:
-	@python -um src.day-1.tasks test;
-
-day1-sample:
-	@python -um src.day-1.tasks;
+day2:
+	@python -um src.main 2 --debug;

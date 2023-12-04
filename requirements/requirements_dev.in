@@ -10,3 +10,6 @@ pytest-cases
 pip-compile-multi
 pip-audit
 pip_search # For searching pypi
+
+# CLI extra testing
+typer-cli
