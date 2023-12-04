@@ -10,7 +10,7 @@ get_requirements_filename() {
 # Options: [ pip-compile-multi, pip-compile ]
 PIP_COMPILE_TOOL="pip-compile-multi"
 
-VENV_DIR="venv/bin/activate"
+VENV_BIN="venv/bin/activate"
 
 REQUIREMENTS_IN_DIR="requirements"
 
@@ -56,7 +56,7 @@ if [[ $HASH_EXISTS -eq 2 ]]; then
     PIP_COMPILE_UPGRADE_STRING_HASH=$PIP_COMPILE_UPGRADE_STRING
 fi
 
-source $VENV_DIR &&
+source $VENV_BIN &&
     pip-compile-multi --live \
         --allow-unsafe \
         --use-cache \
@@ -64,16 +64,6 @@ source $VENV_DIR &&
         --autoresolve \
         --directory ${REQUIREMENTS_IN_DIR} \
         ${PIP_COMPILE_UPGRADE_STRING_TXT} &&
-    pip-compile-multi --live \
-        --allow-unsafe \
-        --use-cache \
-        --backtracking \
-        --autoresolve \
-        --generate-hashes ${REQUIREMENTS_DEV_IN} \
-        --generate-hashes ${REQUIREMENTS_PROD_IN} \
-        --out-ext hash \
-        --directory ${REQUIREMENTS_IN_DIR} \
-        ${PIP_COMPILE_UPGRADE_STRING_HASH} &&
     deactivate
 
 # Remove the -r requirements.txt line from requirements_dev.txt

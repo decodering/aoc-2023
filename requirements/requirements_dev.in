@@ -1,4 +1,4 @@
--r requirements/requirements.in
+-r requirements.in
 
 # Testing modules
 pytest

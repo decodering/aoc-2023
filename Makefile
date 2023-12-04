@@ -36,10 +36,10 @@ sync_requirements:
 	echo "Done!"
 
 day1:
-	@python -um day-1.tasks;
+	@python -um src.day-1.tasks;
 
 day1-test:
-	@python -um day-1.tasks test;
+	@python -um src.day-1.tasks test;
 
 day1-sample:
-	@python -um day-1.tasks;
+	@python -um src.day-1.tasks;
