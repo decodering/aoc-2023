@@ -19,6 +19,8 @@ def get_num_cards_per_card(card_scores: dict, parsed: dict) -> dict:
     num_cards = {}
     for key in card_scores.keys():
         card_score = card_scores[key]
+        for i in range(card_score):
+            
         current_nums, winning_nums = parsed[key]
     return num_cards
 
