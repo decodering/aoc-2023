@@ -1,3 +1,5 @@
+.PHONY: *
+
 #################################################################################
 # GLOBALS
 #################################################################################
@@ -32,6 +34,9 @@ sync_requirements:
 		${REQUIREMENTS_DEV_TXT} ${REQUIREMENTS_PROD_TXT} && \
 	echo "Done!"
 
+newday:
+	@bash scripts/make_new_day_folder.sh $(ARGS)
+
 day1:
 	@source ${VENV_BIN} && \
 		python -um src.main 1;
@@ -39,3 +44,11 @@ day1:
 day2:
 	@source ${VENV_BIN} && \
 		python -um src.main 2;
+
+day3:
+	@source ${VENV_BIN} && \
+		python -um src.main 3 --debug;
+
+day4:
+	@source ${VENV_BIN} && \
+		python -um src.main 4 --debug;
