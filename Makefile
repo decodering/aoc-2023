@@ -52,3 +52,7 @@ day3:
 day4:
 	@source ${VENV_BIN} && \
 		python -um src.main 4;
+
+day6:
+	@source ${VENV_BIN} && \
+		python -um src.main 6;
