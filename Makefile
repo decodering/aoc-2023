@@ -51,4 +51,4 @@ day3:
 
 day4:
 	@source ${VENV_BIN} && \
-		python -um src.main 4 --debug;
+		python -um src.main 4;

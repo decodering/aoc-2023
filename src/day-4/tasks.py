@@ -26,26 +26,22 @@ def get_num_cards_per_card(parsed: dict) -> dict:
         card_scores[key] = score_cnt
     max_card_num = max([int(_) for _ in card_scores.keys()])
 
-    print(card_scores)
     num_cards_per_card = {}
     for card_num in [int(_) for _ in card_scores.keys()]:
-        if card_num not in num_cards_per_card.keys():
+        if f"{card_num}" not in num_cards_per_card.keys():
             num_cards_per_card[f"{card_num}"] = 0
-        card_score = card_scores[f"{card_num}"] + num_cards_per_card[f"{card_num}"]
+        card_score = card_scores[f"{card_num}"]
+        num_cards_per_card[f"{card_num}"] += 1
 
-        print(f"{card_num}: {card_score} points")
         if card_score:
             idx_start = card_num + 1
             idx_end = card_num + card_score + 1
-            idx_end = idx_end if idx_end <= max_card_num else max_card_num
-
-            print(f"=> indices: [{idx_start},{idx_end}]")
+            idx_end = idx_end if idx_end <= (max_card_num + 1) else max_card_num
             for idx in range(idx_start, idx_end):
-                if idx not in num_cards_per_card.keys():
+                if f"{idx}" not in num_cards_per_card.keys():
                     num_cards_per_card[f"{idx}"] = 0
-                num_cards_per_card[f"{idx}"] += 1
+                num_cards_per_card[f"{idx}"] += int(num_cards_per_card[f"{card_num}"])
 
-        num_cards_per_card[f"{card_num}"] += 1
     return num_cards_per_card
 
 
@@ -84,22 +80,15 @@ def get_parsed_input_1(lines: List[str]) -> dict:
 
 
 def main(
-    input_file: str = TEST2_TXT,
+    input_file: str = INPUT_TXT,
 ) -> List[int]:
     lines = read_text_file(input_file)
     parsed = get_parsed_input_1(lines=lines)
 
-    # score_counts = get_score_per_card(parsed=parsed)
-    # task1_answer = sum([_ for _ in score_counts.values()])
+    score_counts = get_score_per_card(parsed=parsed)
+    task1_answer = sum([_ for _ in score_counts.values()])
 
     num_cards_per_card = get_num_cards_per_card(parsed=parsed)
+    task2_answer = sum([_ for _ in num_cards_per_card.values()])
 
-    # _ = [print(_) for _ in lines]
-    # print("")
-    # _ = [print(f"{k}: {v}") for k, v in parsed.items()]
-    # print("")
-    # print(score_counts)
-    # print("")
-
-    # print(task1_answer)
-    print(num_cards_per_card)
+    return [task1_answer, task2_answer]
