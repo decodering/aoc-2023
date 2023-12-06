@@ -15,14 +15,38 @@ INPUT_TXT = join(get_current_file_dir(), "inputs", "input.txt")
 SAMPLE_TXT = join(get_current_file_dir(), "inputs", "sample.txt")
 
 
-def get_num_cards_per_card(card_scores: dict, parsed: dict) -> dict:
-    num_cards = {}
-    for key in card_scores.keys():
-        card_score = card_scores[key]
-        for i in range(card_score):
-            
-        current_nums, winning_nums = parsed[key]
-    return num_cards
+def get_num_cards_per_card(parsed: dict) -> dict:
+    card_scores = {}
+    for key, line in parsed.items():
+        score_cnt = 0
+        current_nums, winning_nums = line
+        for num in current_nums:
+            if num in winning_nums:
+                score_cnt += 1
+        card_scores[key] = score_cnt
+    max_card_num = max([int(_) for _ in card_scores.keys()])
+
+    print(card_scores)
+    num_cards_per_card = {}
+    for card_num in [int(_) for _ in card_scores.keys()]:
+        if card_num not in num_cards_per_card.keys():
+            num_cards_per_card[f"{card_num}"] = 0
+        card_score = card_scores[f"{card_num}"] + num_cards_per_card[f"{card_num}"]
+
+        print(f"{card_num}: {card_score} points")
+        if card_score:
+            idx_start = card_num + 1
+            idx_end = card_num + card_score + 1
+            idx_end = idx_end if idx_end <= max_card_num else max_card_num
+
+            print(f"=> indices: [{idx_start},{idx_end}]")
+            for idx in range(idx_start, idx_end):
+                if idx not in num_cards_per_card.keys():
+                    num_cards_per_card[f"{idx}"] = 0
+                num_cards_per_card[f"{idx}"] += 1
+
+        num_cards_per_card[f"{card_num}"] += 1
+    return num_cards_per_card
 
 
 def get_score_per_card(parsed: dict) -> dict:
@@ -68,7 +92,7 @@ def main(
     # score_counts = get_score_per_card(parsed=parsed)
     # task1_answer = sum([_ for _ in score_counts.values()])
 
-    num_cards = get_num_cards_per_card(parsed=parsed)
+    num_cards_per_card = get_num_cards_per_card(parsed=parsed)
 
     # _ = [print(_) for _ in lines]
     # print("")
@@ -78,4 +102,4 @@ def main(
     # print("")
 
     # print(task1_answer)
-    print(num_cards)
+    print(num_cards_per_card)
