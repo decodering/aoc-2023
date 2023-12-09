@@ -53,9 +53,10 @@ day4:
 	@source ${VENV_BIN} && \
 		python -um src.main 4;
 
+# Note day5.2 may take a while to run / error out. Will need to run directly, e.g. python -um src.main
 day5:
 	@source ${VENV_BIN} && \
-		python -um src.main 5 --debug;
+		python -um src.main 5;
 
 day6:
 	@source ${VENV_BIN} && \
@@ -63,4 +64,4 @@ day6:
 
 day7:
 	@source ${VENV_BIN} && \
-		python -um src.main 7 --debug;
+		python -um src.main 7;
