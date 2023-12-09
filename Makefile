@@ -60,3 +60,7 @@ day5:
 day6:
 	@source ${VENV_BIN} && \
 		python -um src.main 6;
+
+day7:
+	@source ${VENV_BIN} && \
+		python -um src.main 7 --debug;
