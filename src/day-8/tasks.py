@@ -1,7 +1,8 @@
+from concurrent.futures import ProcessPoolExecutor
 from os.path import join
 from pathlib import Path
 from typing import List
-
+from math import lcm
 from src.utils import read_text_file
 
 
@@ -15,31 +16,59 @@ INPUT_TXT = join(get_current_file_dir(), "inputs", "input.txt")
 SAMPLE_TXT = join(get_current_file_dir(), "inputs", "sample.txt")
 
 
+def get_num_steps_ghost_parallel(parsed, debug=False):
+    # CLUE: > 43_981_700_000
+    """
+    > for each starting point
+    > Compute the first Z in parallel
+    > then even out each starting point to the longest current path so it resets to the same num steps per point
+    > continue process for the next z for each path in parallel again
+    >
+    """
+    pass
+
+
 def get_num_steps_ghost(parsed, debug=False):
     # CLUE: > 43_981_700_000
     curr_points = {i: k for i, k in enumerate(parsed.keys()) if k.endswith("A")}
+
+    steps_sequence_len = len(parsed["instruct"])
     steps_taken = 0
     BREAK_FLAG = False
+
+    a_to_z_steps = {i: None for i, k in curr_points.items()}
+    start_to_end_mapping = {}
 
     if debug:
         print(curr_points)
     while not BREAK_FLAG:
+        # if (steps_taken % (steps_sequence_len * 10_000)) == 0:
+        #     print(
+        #         f"\r{steps_taken:_} steps taken. ({len(start_to_end_mapping.keys()):_}/{len(parsed.keys())-1:_} keys mapped!). {a_to_z_steps}",
+        #         end="",
+        #     )
+
+        if all(v.endswith("Z") for v in curr_points.values()):
+            BREAK_FLAG = True
+            break
+
+        starting_points = curr_points.copy()
         for step in parsed["instruct"]:
-            if steps_taken % 10_000 == 0:
-                print(f"\r{steps_taken:_} steps taken", end="")
-
-            if all(v.endswith("Z") for v in curr_points.values()):
-                BREAK_FLAG = True
-                break
-
             for i, curr_point in curr_points.items():
                 if step == "L":
                     curr_points[i] = parsed[curr_point][0]
                 else:
                     curr_points[i] = parsed[curr_point][1]
+                if curr_points[i].endswith("Z") and a_to_z_steps[i] is None:
+                    a_to_z_steps[i] = steps_taken + 1
             if debug:
                 print(curr_points)
             steps_taken += 1
+
+        if all([(_ is not None) for _ in a_to_z_steps.values()]):
+            steps_taken = lcm(*a_to_z_steps.values())
+            BREAK_FLAG = True
+            break
 
     print("")
     return steps_taken
@@ -87,10 +116,7 @@ def main(
     lines = read_text_file(input_file)
     parsed = parse_lines1(lines)
 
-    num_steps = get_num_steps_ghost(parsed, debug=False)
+    task1_answer = get_num_steps(parsed=parsed)
+    task2_answer = get_num_steps_ghost(parsed)
 
-    # print("")
-    # _ = [print(k, v) for k, v in parsed.items()]
-    print("")
-    print(num_steps)
-    print("")
+    return (task1_answer, task2_answer)

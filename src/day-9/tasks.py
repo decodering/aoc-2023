@@ -15,56 +15,73 @@ INPUT_TXT = join(get_current_file_dir(), "inputs", "input.txt")
 SAMPLE_TXT = join(get_current_file_dir(), "inputs", "sample.txt")
 
 
+def sum_of_extrapolated_vals_reversed(parsed, debug=False):
+    extrapolated_vals = {}
+    for ind, line in enumerate(parsed):
+        differences_per_level = []
+        latest_difference_set = None
+        curr_sequence = line
+
+        while latest_difference_set != set([0]):
+            differences = []
+            for i in range(len(curr_sequence) - 1):
+                differences.append(curr_sequence[i + 1] - curr_sequence[i])
+            differences_per_level.append(differences)
+            curr_sequence = differences
+            latest_difference_set = set(differences)
+
+        if debug:
+            print(line)
+            [print(" ", _) for _ in differences_per_level]
+        first_seq_vals = [val[0] for val in differences_per_level[:-1]]
+        for i, first_val in enumerate(first_seq_vals):
+            if i % 2 == 0:
+                first_seq_vals[i] = -first_val
+        extrapolated_vals[ind] = line[0] + sum(first_seq_vals)
+        if debug:
+            print(extrapolated_vals[ind])
+
+    return extrapolated_vals
+
+
+def sum_of_extrapolated_vals(parsed):
+    extrapolated_vals = {}
+    for ind, line in enumerate(parsed):
+        differences_per_level = []
+        latest_difference_set = None
+        curr_sequence = line
+
+        while latest_difference_set != set([0]):
+            differences = []
+            for i in range(len(curr_sequence) - 1):
+                differences.append(curr_sequence[i + 1] - curr_sequence[i])
+            differences_per_level.append(differences)
+            curr_sequence = differences
+            latest_difference_set = set(differences)
+
+        last_seq_vals = [val[-1] for val in differences_per_level[:-1]]
+        extrapolated_vals[ind] = line[-1] + sum(last_seq_vals)
+
+    return extrapolated_vals
+
+
+def parse_input1(lines):
+    parsed = []
+    for line in lines:
+        parsed.append([int(l) for l in line.split(" ")])
+    return parsed
+
+
 def main(
     input_file: str = INPUT_TXT,
 ) -> List[int]:
     lines = read_text_file(input_file)
-    to_sum = []
-    for line in lines:
-        num = ""
-        for char in line:
-            if char.isdigit():
-                num += char
-                break
-        for char in reversed(line):
-            if char.isdigit():
-                num += char
-                break
-        to_sum.append(int(num))
-    sum_answer_digit_chars_only = sum(to_sum)
+    parsed = parse_input1(lines)
 
-    # Task 2: Replace substring for actual digits and then repeat above
-    to_sum = []
-    for line in lines:
-        line = line.lower()
-        for digit_str, digit_int in [
-            ("one", "1"),
-            ("two", "2"),
-            ("three", "3"),
-            ("four", "4"),
-            ("five", "5"),
-            ("six", "6"),
-            ("seven", "7"),
-            ("eight", "8"),
-            ("nine", "9"),
-        ]:
-            if digit_str in line:
-                # Append first and last chars so that it works for continuous string edge cases:
-                # E.g.: eightwothree -> ['eight','two','three]
-                line = line.replace(
-                    digit_str, f"{digit_str[0]}{digit_str}{digit_str[-1]}"
-                )
-                line = line.replace(digit_str, digit_int)
-        num = ""
-        for char in line:
-            if char.isdigit():
-                num += char
-                break
-        for char in reversed(line):
-            if char.isdigit():
-                num += char
-                break
-        to_sum.append(int(num))
-    sum_answer_full = sum(to_sum)
+    vals = sum_of_extrapolated_vals(parsed)
+    task1_answer = sum(v for v in vals.values())
 
-    return [sum_answer_digit_chars_only, sum_answer_full]
+    vals = sum_of_extrapolated_vals_reversed(parsed)
+    task2_answer = sum(v for v in vals.values())
+
+    return [task1_answer, task2_answer]

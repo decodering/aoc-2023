@@ -68,4 +68,72 @@ day7:
 
 day8:
 	@source ${VENV_BIN} && \
-		python -um src.main 8 --debug;
+		python -um src.main 8;
+
+day9:
+	@source ${VENV_BIN} && \
+		python -um src.main 9;
+
+day10:
+	@source ${VENV_BIN} && \
+		python -um src.main 10 --debug;
+
+day11:
+	@source ${VENV_BIN} && \
+		python -um src.main 11 --debug;
+
+day12:
+	@source ${VENV_BIN} && \
+		python -um src.main 12 --debug;
+
+day13:
+	@source ${VENV_BIN} && \
+		python -um src.main 13 --debug;
+
+day14:
+	@source ${VENV_BIN} && \
+		python -um src.main 14 --debug;
+
+day15:
+	@source ${VENV_BIN} && \
+		python -um src.main 15 --debug;
+
+day16:
+	@source ${VENV_BIN} && \
+		python -um src.main 16 --debug;
+
+day17:
+	@source ${VENV_BIN} && \
+		python -um src.main 17 --debug;
+
+day18:
+	@source ${VENV_BIN} && \
+		python -um src.main 18 --debug;
+
+day19:
+	@source ${VENV_BIN} && \
+		python -um src.main 19 --debug;
+
+day20:
+	@source ${VENV_BIN} && \
+		python -um src.main 20 --debug;
+
+day21:
+	@source ${VENV_BIN} && \
+		python -um src.main 21 --debug;
+
+day22:
+	@source ${VENV_BIN} && \
+		python -um src.main 22 --debug;
+
+day23:
+	@source ${VENV_BIN} && \
+		python -um src.main 23 --debug;
+
+day24:
+	@source ${VENV_BIN} && \
+		python -um src.main 24 --debug;
+
+day25:
+	@source ${VENV_BIN} && \
+		python -um src.main 25 --debug;
